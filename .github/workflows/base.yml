@@ -8,6 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest-public-m
+
+    permissions:
+      packages: write
+      attestations: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,8 +33,9 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Determine if this is a production build
         id: build_type
@@ -42,9 +48,6 @@ jobs:
 
       - name: Set environment variables
         run: |
-          # Set environment variable to disable entitlements checks
-          echo "BUILDX_BAKE_ENTITLEMENTS_FS=0" >> $GITHUB_ENV
-
           # Only set RELEASE for development builds
           # For production, we'll use the default from docker-bake.hcl
           if [[ "${{ steps.build_type.outputs.is_production }}" != "true" ]]; then
@@ -56,8 +59,11 @@ jobs:
           fi
 
       - name: Build and push the images to Docker Hub
-        uses: docker/bake-action@v2
+        uses: docker/bake-action@v6
+        env:
+          BUILDX_BAKE_ENTITLEMENTS_FS: 0
         with:
+          source: .
           files: ./official-templates/base/docker-bake.hcl
           push: true
           set: |

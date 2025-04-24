@@ -2,11 +2,15 @@ variable "RELEASE" {
     default = "1.0.3"
 }
 
+variable "GITHUB_WORKSPACE" {
+    default = "../.."
+}
+
 target "default" {
-  dockerfile = "Dockerfile"
+  dockerfile = "${GITHUB_WORKSPACE}/official-templates/tensorflow/Dockerfile"
   tags = ["runpod/tensorflow:${RELEASE}"]
   contexts = {
-    scripts = "../../container-template"
-    proxy = "../../container-template/proxy"
+    scripts = "${GITHUB_WORKSPACE}/container-template"
+    proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
   }
 }

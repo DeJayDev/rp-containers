@@ -2,11 +2,15 @@ variable "RELEASE" {
     default = "3.3.0"
 }
 
+variable "GITHUB_WORKSPACE" {
+    default = "../.."
+}
+
 target "default" {
-    dockerfile = "Dockerfile"
+    dockerfile = "${GITHUB_WORKSPACE}/offical-templates/invokeai/Dockerfile"
     tags = ["runpod/stable-diffusion:invoke-${RELEASE}"]
     contexts = {
-        scripts = "../../container-template"
-        proxy = "../../container-template/proxy"
+        scripts = "${GITHUB_WORKSPACE}/container-template"
+        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
     }
 }

@@ -1,16 +1,16 @@
 variable "RELEASE" {
-    default = "0.1.2"
+  default = "0.1.2"
 }
 
-variable "IMAGE_NAME" {
-    default = "runpod/vscode-server"
+variable "GITHUB_WORKSPACE" {
+  default = "../.."
 }
 
 target "default" {
-    dockerfile = "Dockerfile"
-    tags = ["${IMAGE_NAME}:${RELEASE}"]
-    contexts = {
-        scripts = "../../container-template"
-        proxy = "../../container-template/proxy"
-    }
+  dockerfile = "${GITHUB_WORKSPACE}/official-templates/vscode-server/Dockerfile"
+  tags       = ["runpod/vscode-server:${RELEASE}"]
+  contexts = {
+    scripts = "${GITHUB_WORKSPACE}/container-template"
+    proxy   = "${GITHUB_WORKSPACE}/container-template/proxy"
+  }
 }

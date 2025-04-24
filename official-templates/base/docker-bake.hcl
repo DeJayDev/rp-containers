@@ -3,7 +3,7 @@ variable "RELEASE" {
 }
 
 variable "GITHUB_WORKSPACE" {
-    default = "."
+    default = "../.."
 }
 
 group "default" {
@@ -86,12 +86,13 @@ target "12-2-0" {
 }
 
 target "12-4-1" {
-    dockerfile = "Dockerfile"
+    dockerfile = "${GITHUB_WORKSPACE}/official-templates/base/Dockerfile"
     tags = ["runpod/base:${RELEASE}-cuda12.4.1"]
     contexts = {
-        scripts = "../../container-template"
-        proxy = "../../container-template/proxy"
-        logo = "../../container-template"
+        scripts = "${GITHUB_WORKSPACE}/container-template"
+        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
+        logo = "${GITHUB_WORKSPACE}/container-template"
+        base = "${GITHUB_WORKSPACE}/official-templates/base"
     }
     args = {
         BASE_RELEASE_VERSION = "${RELEASE}"
@@ -100,12 +101,13 @@ target "12-4-1" {
 }
 
 target "12-5-1" {
-    dockerfile = "Dockerfile"
+    dockerfile = "${GITHUB_WORKSPACE}/official-templates/base/Dockerfile"
     tags = ["runpod/base:${RELEASE}-cuda12.5.1"]
     contexts = {
-        scripts = "../../container-template"
-        proxy = "../../container-template/proxy"
-        logo = "../../container-template"
+        scripts = "${GITHUB_WORKSPACE}/container-template"
+        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
+        logo = "${GITHUB_WORKSPACE}/container-template"
+        base = "${GITHUB_WORKSPACE}/official-templates/base"
     }
     args = {
         BASE_RELEASE_VERSION = "${RELEASE}"
@@ -114,12 +116,13 @@ target "12-5-1" {
 }
 
 target "12-6-2" {
-    dockerfile = "Dockerfile"
+    dockerfile = "${GITHUB_WORKSPACE}/official-templates/base/Dockerfile"
     tags = ["runpod/base:${RELEASE}-cuda12.6.2"]
     contexts = {
-        scripts = "../../container-template"
-        proxy = "../../container-template/proxy"
-        logo = "../../container-template"
+        scripts = "${GITHUB_WORKSPACE}/container-template"
+        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
+        logo = "${GITHUB_WORKSPACE}/container-template"
+        base = "${GITHUB_WORKSPACE}/official-templates/base"
     }
     args = {
         BASE_RELEASE_VERSION = "${RELEASE}"

@@ -1,0 +1,12 @@
+FROM ubuntu:20.04
+
+# Copy local contexts directly
+COPY ../../container-template/scripts /scripts
+COPY ../../container-template/proxy /proxy
+COPY ../../container-template/logo.svg /logo.svg
+COPY . /base
+
+ARG BASE_RELEASE_VERSION=local
+ENV BASE_RELEASE_VERSION=${BASE_RELEASE_VERSION}
+
+# Continue with your original Dockerfile instructions here

@@ -2,11 +2,15 @@ variable "RELEASE" {
     default = "2.4.0"
 }
 
+variable "GITHUB_WORKSPACE" {
+    default = "../.."
+}
+
 target "default" {
-    dockerfile = "Dockerfile"
+    dockerfile = "${GITHUB_WORKSPACE}/offical-templates/fast-stable-diffusion/Dockerfile"
     tags = ["runpod/stable-diffusion:fast-stable-diffusion-${RELEASE}"]
     contexts = {
-        scripts = "../../container-template"
-        proxy = "../../container-template/proxy"
+        scripts = "${GITHUB_WORKSPACE}/container-template"
+        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
     }
 }
