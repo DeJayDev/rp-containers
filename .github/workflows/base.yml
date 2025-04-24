@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest-public-m
+    runs-on: ["ubuntu-latest-public-m", "ubuntu-latest"]
 
     permissions:
       packages: write
