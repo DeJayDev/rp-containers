@@ -17,23 +17,6 @@ group "default" {
         "251-py311-cuda1241-devel-ubuntu2204",
         # CUDA 12.8.1
         "280-py311-cuda1281-cudnn-devel-ubuntu2204",
-
-        ### ROCM ###
-        # ROCM 5.6
-        "201-py38-rocm56-ubuntu2004",
-        # ROCM 5.7
-        "201-py310-rocm57-ubuntu2204",
-        # ROCM 6.0
-        "211-py39-rocm60-ubuntu2004",
-        # ROCM 6.0.2
-        "212-py310-rocm602-ubuntu2204",
-        # ROCM 6.1
-        "201-py39-rocm61-ubuntu2004",
-        "212-py310-rocm61-ubuntu2204",
-        "240-py310-rocm610-ubuntu2204",
-        # ROCM 6.1.2
-        "201-py39-rocm612-ubuntu2004",
-        "212-py310-rocm612-ubuntu2204",
     ]
 }
 
@@ -64,7 +47,7 @@ group "cuda" {
 }
 
 variable "GITHUB_WORKSPACE" {
-    default = "../.."
+    default = "."
 }
 
 target "191-py39-cuda111-devel-ubuntu2004" {

@@ -60,6 +60,8 @@ jobs:
         id: changed_files
         uses: tj-actions/changed-files@v46
         with:
+          json: true
+          escape_json: false
           files: |
             **/docker-bake.hcl
 

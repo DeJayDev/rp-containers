@@ -3,7 +3,7 @@ variable "RELEASE" {
 }
 
 variable "GITHUB_WORKSPACE" {
-    default = "../.."
+    default = "."
 }
 
 group "default" {
