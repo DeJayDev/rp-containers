@@ -34,14 +34,9 @@ group "rocm" {
 
 group "cuda" {
     targets = [
-        "191-py39-cuda111-devel-ubuntu2004",
-        "1131-py38-cuda1171-devel-ubuntu2204",
-        "201-py310-cuda1180-devel-ubuntu2204",
-        "210-py310-cuda1180-devel-ubuntu2204",
-        "211-py310-cuda1211-devel-ubuntu2204",
-        "220-py310-cuda1211-devel-ubuntu2204",
         "221-py310-cuda1211-devel-ubuntu2204",
         "240-py311-cuda1241-devel-ubuntu2204",
+        "251-py311-cuda1241-devel-ubuntu2204",
         "280-py311-cuda1281-cudnn-devel-ubuntu2204",
     ]
 }

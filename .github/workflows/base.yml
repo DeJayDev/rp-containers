@@ -16,16 +16,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures full history is available for diff
-
-      - name: Clear space to remove unused folders
-        run: |
-          rm -rf /usr/share/dotnet
-          rm -rf /opt/ghc
-          rm -rf "/usr/local/share/boost"
-          rm -rf "$AGENT_TOOLSDIRECTORY"
+          fetch-depth: 0
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -51,29 +44,33 @@ jobs:
             echo "is_production=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Set environment variables
-        run: |
-          if [[ "${{ steps.build_type.outputs.is_production }}" != "true" ]]; then
-            BRANCH_NAME=$(echo ${GITHUB_REF##refs/heads/} | sed 's/\//-/g')
-            echo "RELEASE=dev-${BRANCH_NAME}" >> $GITHUB_ENV
-          fi
-
       - name: Get changed docker-bake.hcl files
         id: changed_files
         uses: tj-actions/changed-files@v46
         with:
-          json: true
-          escape_json: false
           files: |
             **/docker-bake.hcl
 
+      - name: Define dev release name 
+        if: steps.build_type.outputs.is_production != 'true'
+        run: |
+          BRANCH_NAME=$(echo ${GITHUB_REF##refs/heads/} | sed 's/\//-/g')
+          echo "RELEASE=dev-${BRANCH_NAME}" >> $GITHUB_ENV
+
+      - name: Convert changed files to CSV format
+        if: steps.changed_files.outputs.any_changed == 'true'
+        id: changed_files_csv
+        run: |
+          echo "files=${{ steps.changed_files.outputs.all_changed_files }}" | tr ' ' ',' >> $GITHUB_OUTPUT
+
       - name: Build and push images
+        if: steps.changed_files.outputs.any_changed == 'true'
         uses: docker/bake-action@v6
         env:
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
         with:
           source: .
-          files: ./official-templates/base/docker-bake.hcl
+          files: ${{ steps.changed_files_csv.outputs.files }}
           push: true
           set: |
             ${{ steps.build_type.outputs.is_production != 'true' && format('*.args.RELEASE={0}', env.RELEASE) || '' }}
