@@ -67,9 +67,6 @@ jobs:
           files: |
             **/docker-bake.hcl
 
-      - name: Test
-        run: 
-
       - name: Build and push images
         if: steps.changed_files.outputs.any_changed == 'true'
         uses: docker/bake-action@v6
