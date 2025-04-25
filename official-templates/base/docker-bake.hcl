@@ -7,7 +7,7 @@ variable "GITHUB_WORKSPACE" {
 }
 
 group "default" {
-    targets = ["cpu", "11-1-1", "11-8-0", "12-1-0", "12-2-0", "12-4-1", "12-5-1", "12-6-2"]
+    targets = ["cpu", "12-4-1", "12-5-1", "12-6-2"]
 }
 
 target "cpu" {
@@ -95,9 +95,9 @@ target "12-4-1" {
     dockerfile = "Dockerfile"
     tags = ["runpod/base:${RELEASE}-cuda12.4.1"]
     contexts = {
-        scripts = "${GITHUB_WORKSPACE}/container-template"
-        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
-        logo = "${GITHUB_WORKSPACE}/container-template"
+        scripts = "container-template"
+        proxy = "container-template/proxy"
+        logo = "container-template"
         
     }
     args = {
@@ -111,9 +111,9 @@ target "12-5-1" {
     dockerfile = "Dockerfile"
     tags = ["runpod/base:${RELEASE}-cuda12.5.1"]
     contexts = {
-        scripts = "${GITHUB_WORKSPACE}/container-template"
-        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
-        logo = "${GITHUB_WORKSPACE}/container-template"
+        scripts = "container-template"
+        proxy = "container-template/proxy"
+        logo = "container-template"
         
     }
     args = {
@@ -127,10 +127,9 @@ target "12-6-2" {
     dockerfile = "Dockerfile"
     tags = ["runpod/base:${RELEASE}-cuda12.6.2"]
     contexts = {
-        scripts = "${GITHUB_WORKSPACE}/container-template"
-        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
-        logo = "${GITHUB_WORKSPACE}/container-template"
-        
+        scripts = "container-template"
+        proxy = "container-template/proxy"
+        logo = "container-template"
     }
     args = {
         BASE_RELEASE_VERSION = "${RELEASE}"
