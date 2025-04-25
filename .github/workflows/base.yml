@@ -2,6 +2,9 @@ name: Base Image Build and Release
 
 on:
   push:
+    paths:
+      - '**/docker-bake.hcl'
+      - '.github/workflows/**'
 
 jobs:
   build:
@@ -14,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensures full history is available for diff
 
       - name: Clear space to remove unused folders
         run: |
@@ -46,23 +51,26 @@ jobs:
 
       - name: Set environment variables
         run: |
-          # Only set RELEASE for development builds
-          # For production, we'll use the default from docker-bake.hcl
           if [[ "${{ steps.build_type.outputs.is_production }}" != "true" ]]; then
-            # For development builds (non-main branches)
-            # Convert branch name to tag-friendly format (replace / with -)
             BRANCH_NAME=$(echo ${GITHUB_REF##refs/heads/} | sed 's/\//-/g')
-            # Add dev- prefix to the branch name
             echo "RELEASE=dev-${BRANCH_NAME}" >> $GITHUB_ENV
           fi
 
-      - name: Build and push the images to Docker Hub
+      - name: Get changed docker-bake.hcl files
+        id: changed_files
+        uses: tj-actions/changed-files@v46
+        with:
+          files: |
+            **/docker-bake.hcl
+
+      - name: Build and push images
+        if: steps.changed_files.outputs.any_changed == 'true'
         uses: docker/bake-action@v6
         env:
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
         with:
           source: .
-          files: ./official-templates/base/docker-bake.hcl
+          files: ${{ steps.changed_files.outputs.all_changed_files }}
           push: true
           set: |
             ${{ steps.build_type.outputs.is_production != 'true' && format('*.args.RELEASE={0}', env.RELEASE) || '' }}
