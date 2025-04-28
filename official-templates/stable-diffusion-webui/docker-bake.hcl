@@ -3,19 +3,20 @@ variable "RELEASE" {
 }
 
 variable "GITHUB_WORKSPACE" {
-  default = "../.."
+    default = "."
 }
 
 target "default" {
-  dockerfile = "${GITHUB_WORKSPACE}/official-templates/stable-diffusion-webui/Dockerfile"
-  tags       = ["runpod/stable-diffusion:web-ui-${RELEASE}"]
+  context = "${GITHUB_WORKSPACE}/official-templates/stable-diffusion-webui"
+  dockerfile = "Dockerfile"
+  tags = ["runpod/stable-diffusion:web-ui-${RELEASE}"]
   contexts = {
-    scripts = "${GITHUB_WORKSPACE}/container-template"
-    proxy   = "${GITHUB_WORKSPACE}/container-template/proxy"
+    scripts = "container-template"
+    proxy = "container-template/proxy"
   }
   args = {
-    WEBUI_VERSION    = "v1.8.0"
-    TORCH_VERSION    = "2.1.2+cu118"
+    WEBUI_VERSION = "v1.8.0"
+    TORCH_VERSION = "2.1.2+cu118"
     XFORMERS_VERSION = "0.0.23.post1+cu118"
   }
 }

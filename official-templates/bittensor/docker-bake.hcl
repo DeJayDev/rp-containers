@@ -1,19 +1,20 @@
 variable "VERSION" {
-    default = "5.3.3"
+  default = "5.3.3"
 }
 
 variable "GITHUB_WORKSPACE" {
-    default = "../.."
+  default = "."
 }
 
 target "default" {
-    dockerfile = "${GITHUB_WORKSPACE}/official-templates/bittensor/Dockerfile"
-    tags = ["runpod/bittensor:${VERSION}"]
-    contexts = {
-        scripts = "${GITHUB_WORKSPACE}/container-template"
-        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
-    }
-    args = {
-        VERSION = "${VERSION}"
-    }
+  context = "${GITHUB_WORKSPACE}/official-templates/bittensor"
+  dockerfile = "Dockerfile"
+  tags = ["runpod/bittensor:${VERSION}"]
+  contexts = {
+    scripts = "container-template"
+    proxy = "container-template/proxy"
+  }
+  args = {
+    VERSION = "${VERSION}"
+  }
 }

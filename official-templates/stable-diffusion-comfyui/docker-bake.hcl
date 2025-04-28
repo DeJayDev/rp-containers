@@ -7,7 +7,7 @@ variable "COMFYUI_VERSION" {
 }
 
 variable "GITHUB_WORKSPACE" {
-    default = "../.."
+    default = "."
 }
 
 target "default" {
@@ -15,8 +15,8 @@ target "default" {
     dockerfile = "Dockerfile"
     tags = ["runpod/stable-diffusion:comfy-ui-${RELEASE}"]
     contexts = {
-        scripts = "${GITHUB_WORKSPACE}/container-template"
-        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
+        scripts = "container-template"
+        proxy = "container-template/proxy"
     }
     args = {
         COMFYUI_VERSION = "${COMFYUI_VERSION}"

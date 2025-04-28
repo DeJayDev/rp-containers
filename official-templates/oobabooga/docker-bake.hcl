@@ -1,16 +1,17 @@
 variable "RELEASE" {
-    default = "1.2.1"
+  default = "1.2.1"
 }
 
 variable "GITHUB_WORKSPACE" {
-    default = "../.."
+  default = "."
 }
 
 target "default" {
-    dockerfile = "${GITHUB_WORKSPACE}/offical-templates/oobabooga/Dockerfile"
-    tags = ["runpod/oobabooga:${RELEASE}"]
-    contexts = {
-        scripts = "${GITHUB_WORKSPACE}/container-template"
-        proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
-    }
+  context = "${GITHUB_WORKSPACE}/official-templates/oobabooga"
+  dockerfile = "Dockerfile"
+  tags = ["runpod/oobabooga:${RELEASE}"]
+  contexts = {
+    scripts = "${GITHUB_WORKSPACE}/container-template"
+    proxy = "${GITHUB_WORKSPACE}/container-template/proxy"
+  }
 }
