@@ -14,8 +14,3 @@ export RELEASE=local
 #docker buildx bake -f official-templates/tensorflow/docker-bake.hcl
 #docker buildx bake -f official-templates/vs-code/docker-bake.hcl
 #docker buildx bake -f official-templates/vscode-server/docker-bake.hcl
-
-docker buildx bake -f official-templates/discoart/docker-bake.hcl 
-docker buildx bake -f official-templates/oobabooga/docker-bake.hcl 
-docker buildx bake -f official-templates/stable-diffusion-comfyui/docker-bake.hcl 
-docker buildx bake -f official-templates/tensorflow/docker-bake.hcl 
