@@ -72,8 +72,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 # Start Scripts
 COPY pre_start.sh /pre_start.sh
-COPY --from=scripts start.sh /
-RUN chmod +x /start.sh
+COPY --chmod=755 --from=scripts start.sh /
 
 # Force
 RUN pip install --upgrade --force-reinstall  torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
